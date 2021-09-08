@@ -1,5 +1,5 @@
 # A3 - UAM - Ténicas de Programação
-### Minha resolução para a A3 de Técnicas de Programação do meu curso de Ciência da Computação da Universidade Anhembi Morumbi. Recebi nota 10.
+### Minha resolução para a A3 de Técnicas de Programação do meu curso de Ciência da Computação da Universidade Anhembi Morumbi.
 
 #### O enunciado da questão era o seguinte:
 
