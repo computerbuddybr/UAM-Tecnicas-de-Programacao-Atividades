@@ -47,7 +47,7 @@ int atualizarGastosCliente(LISTACLIENTES *clientes);
 
 void zerarGastosMes(LISTACLIENTES *clientes);
 
-void inserirCliente(LISTACLIENTES *clientes);
+int inserirCliente(LISTACLIENTES *clientes);
 
 void atualizarDB(LISTACLIENTES *clientes);
 
@@ -154,6 +154,7 @@ void imprimirClienteEspecifico(LISTACLIENTES *clientes) {
             strcmp(cliente.sobrenome, clientes->lista[i].sobrenome) == 0) {
             imprimirLinhaCliente(clientes->lista[i]);
             controle = 1;
+            break;
 
         }
     }
@@ -293,7 +294,7 @@ void zerarGastosMes(LISTACLIENTES *clientes) {
  * @param *clientes
  * @return
  */
-void inserirCliente(LISTACLIENTES *clientes) {
+int inserirCliente(LISTACLIENTES *clientes) {
     CLIENTE cliente;
     int i;
     int controle = 0;
@@ -322,6 +323,7 @@ void inserirCliente(LISTACLIENTES *clientes) {
             strcmp(cliente.sobrenome, clientes->lista[i].sobrenome) == 0) {
             controle = 1;
             printf("\nEste cliente já existe, se deseja atualizar seus gastos favor usar a opção 3 - Atualizar gastos de cliente? ");
+            return 0;
 
         }
     }
@@ -330,10 +332,12 @@ void inserirCliente(LISTACLIENTES *clientes) {
     if (controle == 0) {
         printf("\nQual o ano de nascimento do cliente? ");
         scanf("%d", &cliente.anoNascimento);
+        fflush(stdin);
         while (cliente.anoNascimento < 1900) {
-            fflush(stdin);
+
             printf("\nVocê inseriu um ano inválido, favor usar o formato AAAA, ex. 2021: ");
             scanf("%d", &cliente.anoNascimento);
+            fflush(stdin);
         }
         printf("\nDe quanto é o gasto novo do cliente? ");
         scanf("%f", &cliente.gastosMes);
@@ -341,9 +345,10 @@ void inserirCliente(LISTACLIENTES *clientes) {
 
         clientes->lista[clientes->contador] = cliente;
         clientes->contador += 1;
+
     }
 
-
+    return 1;
 }
 
 /**
@@ -436,7 +441,6 @@ void lerDB(LISTACLIENTES *clientes) {
     fclose(arq);
 
 
-    //return clientes;
 }
 
 /**
@@ -487,25 +491,28 @@ void sistemaInterativo() {
             switch (opcao) {
                 case 1:
 
-                    inserirCliente(&clientes);
-                    organizarClientes(&clientes);
-                    atualizarDB(&clientes);
-                    if ((clientes.contador % 10) == 0) {
-                        entradas = descobrirQuantidadeDeEntradas();
-                        novoBytes = bytes * entradas;
-                        clientes.lista = (CLIENTE *) realloc(clientes.lista, novoBytes);
+                    if (inserirCliente(&clientes) == 1) {
+                        organizarClientes(&clientes);
+                        atualizarDB(&clientes);
+                        if ((clientes.contador % 10) == 0) {
+                            entradas = descobrirQuantidadeDeEntradas();
+                            novoBytes = bytes * entradas;
+                            clientes.lista = (CLIENTE *) realloc(clientes.lista, novoBytes);
+                        }
                     }
+
                     break;
                 case 2:
                     if (removerCliente(&clientes) == 1) {
                         atualizarDB(&clientes);
+                        if ((clientes.contador % 10) == 0) {
+                            entradas = descobrirQuantidadeDeEntradas();
+                            novoBytes = bytes * entradas;
+                            clientes.lista = (CLIENTE *) realloc(clientes.lista, novoBytes);
+                        }
                     }
 
-                    if ((clientes.contador % 10) == 0) {
-                        entradas = descobrirQuantidadeDeEntradas();
-                        novoBytes = bytes * entradas;
-                        clientes.lista = (CLIENTE *) realloc(clientes.lista, novoBytes);
-                    }
+
                     break;
                 case 3:
                     if (atualizarGastosCliente(&clientes) == 1) {
@@ -558,6 +565,7 @@ void sistemaInterativo() {
     }
 
     free(clientes.lista);
+
 }
 
 void main() {
