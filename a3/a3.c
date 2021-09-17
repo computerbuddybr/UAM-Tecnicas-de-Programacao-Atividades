@@ -1,6 +1,7 @@
 /*
  * Segue a minha resposta para a atividade 3 - enviado no dia 06/09/2021 - às 18:30
  * Em Linux compilar com o comando "gcc -o a3 a3.c -lm", pois se não não compila a biblioteca math
+ * É necessário criar o arquivo clientes.txt e escrever pelo menos a primeira linha com 0 tab 0 para que não quebre o programa ao rodar a primeira vez
  */
 #include <stdio.h>
 #include <stdlib.h>
