@@ -1,3 +1,4 @@
+// É necessário criar o arquivo veiculos.txt para que não quebre o programa ao rodar a primeira vez
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
