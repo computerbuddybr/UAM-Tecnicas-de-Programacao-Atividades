@@ -1,7 +1,6 @@
 /*
  * Segue a minha resposta para a atividade 3 - enviado no dia 06/09/2021 - às 18:30
  * Em Linux compilar com o comando "gcc -o a3 a3.c -lm", pois se não não compila a biblioteca math
- * É necessário criar o arquivo clientes.txt e escrever pelo menos a primeira linha com 0 tab 0 para que não quebre o programa ao rodar a primeira vez
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +8,9 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
+#include <locale.h>
+
+
 
 
 typedef struct cliente {
@@ -207,7 +209,7 @@ int removerCliente(LISTACLIENTES *clientes) {
                 fflush(stdin);
 
             }
-
+            break;
         }
     }
     if (controle == 0) {
@@ -282,7 +284,6 @@ int atualizarGastosCliente(LISTACLIENTES *clientes) {
  */
 void zerarGastosMes(LISTACLIENTES *clientes) {
     int i;
-
 
     for (i = 0; i < clientes->contador; i++) {
         clientes->lista[i].gastosTotais += clientes->lista[i].gastosMes;
@@ -416,10 +417,7 @@ void organizarClientes(LISTACLIENTES *clientes) {
  */
 void lerDB(LISTACLIENTES *clientes) {
     FILE *arq;
-    int i;
-    int esteMes; //verificar o mes
-    esteMes = queMesE();
-    //LISTACLIENTES clientes;
+
     CLIENTE cliente;
     int contador = 0;
 
@@ -468,7 +466,7 @@ void sistemaInterativo() {
     int esteMes;
     int opcao;
     int certeza;
-    int controle;
+
     esteMes = queMesE();
 
     entradas = descobrirQuantidadeDeEntradas();
@@ -524,11 +522,13 @@ void sistemaInterativo() {
                 case 4:
                     //Sempre que o programa roda, ele verifica se o mês virou para zerar os gastos mensais. Aqui, forneço além disso a possibilidade de zerar na mão mesmo que o mês não virou
 
-                    printf("\nAo virar o mês o sitema automaticamente atualiza os gastos totais e zera os gastos mensais. Prosseguindo você irá fazer essa atualização novamente, tem certeza que deseja zerar os gastos mensais e atualizar os gastos totais? Digite 1 para Sim e 0 para Não ");
+                    printf("\nAo virar o mês o sistema automaticamente atualiza os gastos totais e zera os gastos mensais. Prosseguindo você irá fazer essa atualização novamente, tem certeza que deseja zerar os gastos mensais e atualizar os gastos totais? Digite 1 para Sim e 0 para Não ");
                     scanf("%d", &certeza);
+                    fflush(stdin);
                     while (certeza != 0 && certeza != 1) {
                         printf("\nOpção inválida. Digite 1 para Sim e 0 para Não ");
                         scanf("%d", &certeza);
+                        fflush(stdin);
                     }
                     if (certeza == 1) {
                         zerarGastosMes(&clientes);
@@ -567,6 +567,7 @@ void sistemaInterativo() {
 
     free(clientes.lista);
 
+
 }
 
 void main() {
@@ -576,4 +577,3 @@ void main() {
 
 
 }
-
