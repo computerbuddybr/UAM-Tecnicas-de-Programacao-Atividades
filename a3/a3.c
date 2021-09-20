@@ -306,8 +306,8 @@ int inserirCliente(LISTACLIENTES *clientes) {
     printf("\nQual o primeiro nome do cliente? Colocar somente um nome, qualquer valor depois de um  espaço será  desconsiderado. ");
     scanf("%s", cliente.nome);
     fflush(stdin);
-    while (strlen(cliente.nome) > 15 ||strlen(cliente.nome) == 0 ) {
-        printf("\nO nome é obrigatório e não pode ter mais que 15 caracteres: ");
+    while (strlen(cliente.nome) > 15) {
+        printf("\nO nome é longo demais, favor inserir no máximo 15 caracteres: ");
         scanf("%s", cliente.nome);
         fflush(stdin);
     }
