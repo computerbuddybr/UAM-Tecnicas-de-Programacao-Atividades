@@ -44,6 +44,7 @@ void imprimirClienteQueMaisCompra(LISTACLIENTES *clientes);
 void imprimirClienteEspecifico(LISTACLIENTES *clientes);
 
 int queMesE();
+int queAnoE();
 
 int removerCliente(LISTACLIENTES *clientes);
 
@@ -66,7 +67,7 @@ void sistemaInterativo();
 
 /**
  * Descobrindo o mês atual
- * @return int
+ * @return int o mês atual
  */
 int queMesE() {
     time_t s;
@@ -76,6 +77,21 @@ int queMesE() {
     hora = localtime(&s);
     esteMes = hora->tm_mon + 1;
     return esteMes;
+}
+
+
+/**
+ * Descobrindo o ano atual
+ * @return int o ano atual
+ */
+int queAnoE() {
+    time_t s;
+    struct tm *hora;
+    int esteAno;
+    s = time(NULL);
+    hora = localtime(&s);
+    esteAno = hora->tm_year + 1900;   
+    return esteAno;
 }
 
 /**
@@ -301,6 +317,7 @@ int inserirCliente(LISTACLIENTES *clientes) {
     CLIENTE cliente;
     int i;
     int controle = 0;
+    int esteAno = queAnoE();
 
     printf("\nFavor inserir os dados do cliente pedidos abaixo: ");
     printf("\nQual o primeiro nome do cliente? Colocar somente um nome, qualquer valor depois de um  espaço será  desconsiderado. ");
@@ -336,7 +353,7 @@ int inserirCliente(LISTACLIENTES *clientes) {
         printf("\nQual o ano de nascimento do cliente? ");
         scanf("%d", &cliente.anoNascimento);
         fflush(stdin);
-        while (cliente.anoNascimento < 1900) {
+        while (cliente.anoNascimento < 1900 || cliente.anoNascimento > esteAno) {
 
             printf("\nVocê inseriu um ano inválido, favor usar o formato AAAA, ex. 2021: ");
             scanf("%d", &cliente.anoNascimento);
