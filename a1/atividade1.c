@@ -1,7 +1,7 @@
-// É necessário criar o arquivo veiculos.txt para que não quebre o programa ao rodar a primeira vez
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 
 //Declarando meus structs
@@ -18,6 +18,7 @@ typedef struct listaVeiculos {
 } LISTAVEICULOS;
 
 //Declarando os protótipos de função
+int queAnoE();
 VEICULO  dadosVeiculo();
 LISTAVEICULOS organizarDB(LISTAVEICULOS carros, VEICULO carroNovo);
 void gravarDadosVeiculoDBEmOrdem(LISTAVEICULOS carros);
@@ -34,11 +35,26 @@ void sistemaInterativo();
 
 
 /**
+ * Descobrindo o ano atual
+ * @return int o ano atual
+ */
+int queAnoE() {
+    time_t s;
+    struct tm *hora;
+    int esteAno;
+    s = time(NULL);
+    hora = localtime(&s);
+    esteAno = hora->tm_year + 1900;
+    return esteAno;
+}
+
+/**
  * Função para pedir do usuário os dados do veículo
  * @return
  */
 VEICULO dadosVeiculo() {
     VEICULO carro;
+    int esteAno = queAnoE() + 1;//Carros muitas vezes tem modelo do ano seguinte
 
     printf("Favor inserir os dados do veículo.\n");
     printf("Marca do veículo: ");
@@ -55,7 +71,7 @@ VEICULO dadosVeiculo() {
     fflush(stdin);
 
     scanf("%d", &carro.ano);
-    while (carro.ano < 1900 || carro.ano > 2022) {
+    while (carro.ano < 1900 || carro.ano > esteAno) {
         fflush(stdin);
         printf("Você inseriu um ano inválido, favor usar o formato AAAA, ex. 2021: ");
         scanf("%d", &carro.ano);
